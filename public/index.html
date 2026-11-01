@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es-AR" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Santa Cruz Noticias · El pulso de la provincia</title>
+    <meta
+      name="description"
+      content="Dashboard de noticias de la provincia de Santa Cruz: Río Gallegos, Caleta Olivia, El Calafate, Puerto Deseado y más. Archivo histórico navegable por día."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- Protección de acceso Firebase (evita parpadeo de contenido) -->
+    <style id="auth-cloak">html { visibility: hidden; }</style>
+    <script type="module" src="/js/auth-check.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="masthead">
+      <div class="masthead__glow" aria-hidden="true"></div>
+      <div class="masthead__inner">
+        <a class="brand" href="/" aria-label="Santa Cruz Noticias, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <rect width="48" height="48" rx="13" fill="currentColor" />
+              <path d="M7 33.5 18 18l7.2 9.6L30.8 20 41 33.5H7Z" fill="#f6f1e6" />
+              <circle cx="34" cy="14" r="4.5" fill="#e9a23b" />
+            </svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__eyebrow">Provincia de Santa Cruz · Patagonia</span>
+            <span class="brand__name">Santa Cruz <em>Noticias</em></span>
+          </span>
+        </a>
+
+        <div class="masthead__tools">
+          <label class="search" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5"></circle>
+              <path d="m16 16 4.5 4.5"></path>
+            </svg>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Buscar en las noticias del día…"
+              autocomplete="off"
+              aria-label="Buscar noticias"
+            />
+            <kbd>/</kbd>
+          </label>
+
+          <button id="refreshBtn" class="btn btn--accent" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-refresh">
+              <path d="M20 11a8 8 0 1 0-2.34 5.66"></path>
+              <path d="M20 5v6h-6"></path>
+            </svg>
+            <span>Actualizar</span>
+          </button>
+
+          <button id="settingsBtn" class="icon-btn" type="button" aria-label="Configuración" title="Configuración">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.89a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"></path>
+            </svg>
+          </button>
+
+          <button id="themeBtn" class="icon-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-sun">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+            </svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-moon">
+              <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path>
+            </svg>
+          </button>
+
+          <button id="logoutBtn" class="icon-btn" type="button" aria-label="Cerrar sesión" title="Cerrar sesión">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="dateline">
+        <div class="dateline__inner">
+          <div class="date-nav">
+            <button id="prevDay" class="icon-btn icon-btn--small" type="button" aria-label="Día anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+            </button>
+            <div class="date-nav__current">
+              <span class="date-nav__label" id="dateLabel">Hoy</span>
+              <span class="date-nav__full" id="dateFull"></span>
+              <input id="datePicker" type="date" aria-label="Elegir fecha" />
+            </div>
+            <button id="nextDay" class="icon-btn icon-btn--small" type="button" aria-label="Día siguiente">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+            </button>
+            <button id="todayBtn" class="btn btn--ghost btn--small" type="button">Hoy</button>
+          </div>
+
+          <div class="archive-rail" id="archiveRail" aria-label="Archivo por día"></div>
+
+          <button id="exportBtn" class="btn btn--ghost btn--small export-btn" type="button" title="Descargar las noticias del día en CSV">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path>
+            </svg>
+            Exportar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="contenido" class="shell">
+      <section class="hero">
+        <div class="hero__copy">
+          <p class="kicker">Radar provincial</p>
+          <h1>El pulso de Santa Cruz,<br /><em>día por día.</em></h1>
+          <p class="hero__lead">
+            Noticias de Río Gallegos, Caleta Olivia, El Calafate y toda la provincia,
+            reunidas desde sus medios locales y ordenadas por temática.
+          </p>
+        </div>
+        <div class="stats" id="stats" aria-live="polite"></div>
+      </section>
+
+      <div class="toolbar">
+        <button id="filtersBtn" class="btn btn--ghost filters-toggle" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+          Filtros
+        </button>
+        <div id="activeFilters" class="active-filters"></div>
+        <div class="toolbar__count" id="resultCount"></div>
+      </div>
+
+      <div class="layout">
+        <aside class="sidebar" id="sidebar" aria-label="Filtros">
+          <div class="sidebar__head">
+            <h2>Explorar</h2>
+            <button id="closeFiltersBtn" class="icon-btn icon-btn--small" type="button" aria-label="Cerrar filtros">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div id="filtersContent"></div>
+          <div class="sidebar__foot">
+            <button id="clearFiltersBtn" class="btn btn--ghost btn--small" type="button">Limpiar filtros</button>
+          </div>
+        </aside>
+
+        <section class="feed" id="feed">
+          <div id="featured"></div>
+          <div id="articles" class="news-grid" aria-live="polite"></div>
+          <div id="emptyState" class="empty" hidden>
+            <div class="empty__mark" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M14 12h28a8 8 0 0 1 8 8v32H22a8 8 0 0 1-8-8V12Z" stroke="currentColor" stroke-width="2.2" />
+                <path d="M22 22h20M22 30h20M22 38h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                <path d="M14 12v32a8 8 0 0 0 8 8" stroke="currentColor" stroke-width="2.2" />
+              </svg>
+            </div>
+            <h2 id="emptyTitle">No hay noticias para este día</h2>
+            <p id="emptyText">
+              Probá con otra fecha del archivo, quitá los filtros o actualizá los medios para buscar novedades.
+            </p>
+            <div class="empty__actions">
+              <button id="emptyRefreshBtn" class="btn btn--accent" type="button">Actualizar ahora</button>
+              <button id="emptySearchDateBtn" class="btn btn--accent" type="button" hidden>Buscar noticias</button>
+              <button id="emptyClearFiltersBtn" class="btn btn--ghost" type="button" hidden>Mostrar todas las noticias</button>
+              <button id="emptyYesterdayBtn" class="btn btn--ghost" type="button">Ver el día anterior</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="brand__mark brand__mark--small" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <rect width="48" height="48" rx="13" fill="currentColor" />
+              <path d="M7 33.5 18 18l7.2 9.6L30.8 20 41 33.5H7Z" fill="#f6f1e6" />
+              <circle cx="34" cy="14" r="4.5" fill="#e9a23b" />
+            </svg>
+          </span>
+          <div>
+            <strong>Santa Cruz Noticias</strong>
+            <p>Un radar de la prensa local, con archivo histórico navegable.</p>
+          </div>
+        </div>
+        <p class="footer__legal">
+          Los títulos, copetes e imágenes pertenecen a cada medio. Este tablero enlaza siempre a la nota original.
+          <button id="footerSettingsBtn" class="link-btn" type="button">Configurar medios</button>
+        </p>
+      </div>
+    </footer>
+
+    <div id="backdrop" class="backdrop" hidden></div>
+
+    <dialog id="settingsDialog" class="modal" aria-labelledby="settingsTitle">
+      <div class="modal__head">
+        <div>
+          <p class="kicker">Configuración</p>
+          <h2 id="settingsTitle">Panel de control</h2>
+        </div>
+        <button id="closeSettingsBtn" class="icon-btn" type="button" aria-label="Cerrar configuración">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Secciones de configuración">
+        <button class="tab is-active" data-tab="sources" role="tab" type="button">Medios</button>
+        <button class="tab" data-tab="prefs" role="tab" type="button">Preferencias</button>
+        <button class="tab" data-tab="about" role="tab" type="button">Acerca de</button>
+      </div>
+
+      <div class="modal__body">
+        <section data-panel="sources">
+          <div class="panel-head">
+            <p>Activá, editá o sumá medios. Los cambios se aplican en la próxima actualización.</p>
+            <button id="addSourceBtn" class="btn btn--accent btn--small" type="button">Agregar medio</button>
+          </div>
+          <div id="sourcesList" class="sources-list"></div>
+
+          <form id="sourceForm" class="source-form" hidden>
+            <input type="hidden" name="id" />
+            <div class="form-head">
+              <h3 id="sourceFormTitle">Agregar medio</h3>
+              <button id="cancelSourceBtn" class="link-btn" type="button">Cancelar</button>
+            </div>
+            <div class="form-grid">
+              <label>Nombre <input name="name" required placeholder="Ej.: Diario de la Patagonia" /></label>
+              <label>
+                Localidad
+                <input name="locality" list="localitiesList" placeholder="Río Gallegos" />
+              </label>
+              <label class="span-2">URL principal <input name="homepage" type="url" placeholder="https://medio.com.ar/" /></label>
+              <label>Feed RSS <input name="feed_url" type="url" placeholder="https://medio.com.ar/feed/" /></label>
+              <label>URL de listado <input name="list_url" type="url" placeholder="https://medio.com.ar/" /></label>
+              <label>Patrón de enlaces (opcional) <input name="article_pattern" placeholder="-\\d{6}\\.html$" /></label>
+              <label>
+                Tipo
+                <select name="type">
+                  <option value="auto">Automático (RSS + HTML)</option>
+                  <option value="rss">Solo RSS</option>
+                  <option value="html">Solo HTML</option>
+                </select>
+              </label>
+              <label class="span-2">API de WordPress (opcional) <input name="wp_api" type="url" placeholder="https://medio.com.ar/wp-json/wp/v2/posts" /></label>
+              <label class="span-2">Notas <textarea name="notes" rows="2" placeholder="Descripción breve del medio"></textarea></label>
+            </div>
+            <div class="check-row">
+              <label class="check"><input name="enrich" type="checkbox" checked /> Completar imagen y copete entrando a cada nota</label>
+              <label class="check"><input name="enabled" type="checkbox" checked /> Medio habilitado</label>
+            </div>
+            <div class="form-actions">
+              <button id="testSourceBtn" class="btn btn--ghost btn--small" type="button">Probar fuente</button>
+              <button class="btn btn--accent btn--small" type="submit">Guardar medio</button>
+            </div>
+            <p id="sourceFormMessage" class="form-message" role="status"></p>
+          </form>
+        </section>
+
+        <section data-panel="prefs" hidden>
+          <form id="prefsForm" class="prefs-form">
+            <div class="form-grid">
+              <label>
+                Actualizar cada (minutos)
+                <input name="refresh_minutes" type="number" min="5" max="1440" step="5" />
+              </label>
+              <label>
+                Máximo de notas por medio
+                <input name="max_per_source" type="number" min="5" max="150" step="5" />
+              </label>
+              <label>
+                Notas a completar por medio
+                <input name="enrich_limit" type="number" min="0" max="60" step="1" />
+              </label>
+              <label>
+                Retener archivo (días, 0 = todo)
+                <input name="retention_days" type="number" min="0" max="3650" step="30" />
+              </label>
+            </div>
+
+            <div class="prefs-section">
+              <h3>Intereses predeterminados</h3>
+              <p class="hint">Elegí qué temáticas querés ver seleccionadas por defecto al abrir el tablero. Si no marcás ninguna, se muestran todas.</p>
+              <div class="prefs-actions-row">
+                <button id="selectAllCategoriesBtn" class="link-btn" type="button">Marcar todas</button>
+                <span>·</span>
+                <button id="clearAllCategoriesBtn" class="link-btn" type="button">Desmarcar todas</button>
+              </div>
+              <div id="defaultCategoriesList" class="prefs-chips-grid"></div>
+            </div>
+
+            <div class="prefs-section">
+              <h3>Medios predeterminados</h3>
+              <p class="hint">Elegí qué medios de comunicación querés priorizar por defecto. Si no marcás ninguno, se incluyen todos.</p>
+              <div class="prefs-actions-row">
+                <button id="selectAllSourcesBtn" class="link-btn" type="button">Marcar todos</button>
+                <span>·</span>
+                <button id="clearAllSourcesBtn" class="link-btn" type="button">Desmarcar todos</button>
+              </div>
+              <div id="defaultSourcesList" class="prefs-chips-grid"></div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn--accent btn--small" type="submit">Guardar preferencias</button>
+            </div>
+            <p class="hint">
+              “Completar notas” controla cuántas páginas se visitan por medio en cada actualización para obtener
+              imagen, copete y fecha. Un número bajo mantiene el relevamiento rápido y respetuoso con los sitios.
+            </p>
+          </form>
+
+          <div class="prefs-extra">
+            <h3>Fotos de noticias</h3>
+            <p>Recorre las notas archivadas que no tienen foto e intenta completarlas visitando su página original.</p>
+            <div class="form-actions" style="justify-content:flex-start;">
+              <button id="enrichImagesBtn" class="btn btn--ghost btn--small" type="button">
+                Completar fotos faltantes
+              </button>
+            </div>
+          </div>
+
+          <div class="prefs-extra">
+            <h3>Exportar</h3>
+            <p>Descargá las noticias del día seleccionado.</p>
+            <div class="form-actions">
+              <button id="exportCsvBtn" class="btn btn--ghost btn--small" type="button">CSV</button>
+              <button id="exportJsonBtn" class="btn btn--ghost btn--small" type="button">JSON</button>
+            </div>
+          </div>
+        </section>
+
+        <section data-panel="about" hidden>
+          <div class="about">
+            <h3>Cómo funciona</h3>
+            <p>
+              El servidor recorre los medios configurados, lee sus feeds RSS o sus portadas, y guarda cada nota en
+              una base local. Las noticias se clasifican por temática y localidad, y quedan disponibles por fecha.
+            </p>
+            <p>
+              El archivo histórico se construye con cada actualización. Podés navegar días anteriores desde la
+              línea de fechas o con el selector. Los enlaces abren siempre la nota original del medio.
+            </p>
+            <h3>Privacidad y límites</h3>
+            <p>
+              Todo corre en tu computadora. No hay cuentas, nube ni publicidad. El relevamiento respeta los tiempos
+              de espera entre pedidos y no descarga contenidos completos: solo título, copete, imagen y enlace.
+            </p>
+            <h3>Medios y cobertura</h3>
+            <p>
+              La lista inicial incluye medios de Río Gallegos, Caleta Olivia, Las Heras, Puerto Deseado y Pico
+              Truncado. Podés agregar cualquier portal que publique RSS o una portada con enlaces a sus notas.
+            </p>
+            <p class="about__note">
+              ¿Un medio bloquea el acceso? Algunos portales usan protecciones anti-bot. En ese caso se puede
+              desactivar y consultar su portada manualmente.
+            </p>
+          </div>
+        </section>
+      </div>
+    </dialog>
+
+    <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+    <datalist id="localitiesList"></datalist>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

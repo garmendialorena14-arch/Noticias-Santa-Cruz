@@ -1,0 +1,22 @@
+{
+  "name": "santa-cruz-noticias",
+  "version": "1.0.0",
+  "description": "Dashboard de noticias de la provincia de Santa Cruz, Argentina",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "backfill": "node scripts/backfill.js",
+    "enrich-images": "node scripts/enrich-images.js",
+    "schedule-daily": "powershell -ExecutionPolicy Bypass -File ./scripts/setup-daily-task.ps1"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2",
+    "express": "^5.1.0",
+    "fast-xml-parser": "^5.3.1"
+  }
+}
