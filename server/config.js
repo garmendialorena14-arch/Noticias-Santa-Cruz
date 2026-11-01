@@ -429,6 +429,18 @@ export const DEFAULT_SOURCES = [
     type: 'html',
     enrich: 0,
     notes: 'Portal de Pico Truncado. Sitio con metadatos limitados.'
+  },
+  {
+    slug: 'prensa-santa-cruz',
+    name: 'Prensa Santa Cruz',
+    locality: 'Río Gallegos',
+    homepage: 'https://noticias.santacruz.gob.ar/',
+    feed_url: 'https://noticias.santacruz.gob.ar/?format=feed&type=rss',
+    list_url: 'https://noticias.santacruz.gob.ar/',
+    article_pattern: null,
+    type: 'auto',
+    enrich: 1,
+    notes: 'Portal oficial de noticias del Gobierno de la Provincia de Santa Cruz.'
   }
 ];
 

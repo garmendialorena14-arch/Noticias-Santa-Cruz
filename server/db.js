@@ -196,11 +196,8 @@ function dedupeExistingArticles() {
 }
 
 function seedSources() {
-  const count = db.prepare('SELECT COUNT(*) AS count FROM sources').get().count;
-  if (count > 0) return;
-
   const insert = db.prepare(`
-    INSERT INTO sources (
+    INSERT OR IGNORE INTO sources (
       slug, name, locality, homepage, feed_url, list_url, article_pattern,
       type, enrich, enabled, notes, wp_api, created_at, updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
