@@ -817,14 +817,33 @@ a {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 9999px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 .sidebar__head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 18px 12px;
+  background: var(--card);
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -2159,6 +2178,7 @@ a {
     left: 0;
     bottom: 0;
     width: min(340px, 88vw);
+    max-height: 100%;
     border-radius: 0;
     border: 0;
     transform: translateX(-102%);
