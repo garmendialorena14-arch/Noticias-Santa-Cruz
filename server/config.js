@@ -40,8 +40,20 @@ export const CATEGORIES = [
       'vecino', 'vecina', 'comunidad', 'barrio', 'vivienda', 'agua', 'cloaca', 'basura',
       'servicio', 'transporte', 'colectivo', 'obra', 'ruta', 'familia', 'joven', 'nino',
       'nina', 'mujer', 'adulto mayor', 'discapacidad', 'inclusion', 'religion', 'iglesia',
-      'clima', 'temperatura', 'nieve', 'viento', 'calor', 'frio', 'halloween', 'navidad',
-      'solidaridad', 'voluntario', 'bombero', 'defensa civil', 'proteccion civil'
+      'halloween', 'navidad', 'solidaridad', 'voluntario', 'bombero', 'defensa civil', 'proteccion civil'
+    ]
+  },
+  {
+    name: 'Clima',
+    color: '#0891b2',
+    bg: '#cffafe',
+    keywords: [
+      'clima', 'tiempo', 'meteorolog', 'pronostico', 'temperatura', 'termometro',
+      'viento', 'rafaga', 'alerta meteorolog', 'alerta amarilla', 'alerta naranja', 'alerta roja',
+      'smn', 'servicio meteorologico', 'nieve', 'nevada', 'helada', 'sensacion termica',
+      'lluvia', 'precipitacion', 'temporal', 'escarcha', 'tormenta', 'ola polar',
+      'ola de calor', 'frente frio', 'cielo nublado', 'despejado', 'chubasco', 'granizo',
+      'climatologico', 'invernada', 'viento blanco', 'marullo', 'marea extraordinaria'
     ]
   },
   {
@@ -117,8 +129,8 @@ export const CATEGORIES = [
     color: '#4d7c0f',
     bg: '#ecfccb',
     keywords: [
-      'ambiente', 'ambiental', 'contaminacion', 'basural', 'residuo', 'reciclaje',
-      'incendio forestal', 'cambio climatico',
+      'ambiente', 'ambiental', 'contamin', 'basural', 'residuo', 'reciclaje',
+      'incendio forestal', 'cambio climatico', 'crisis climatica',
       'sequia', 'derrame', 'area protegida', 'parque nacional',
       'ecologia', 'humo', 'saneamiento', 'vertedero', 'calentamiento global'
     ]
@@ -185,6 +197,13 @@ export const CATEGORY_ALIASES = {
   locales: 'Sociedad',
   local: 'Sociedad',
   regionales: 'Sociedad',
+  clima: 'Clima',
+  tiempo: 'Clima',
+  'el tiempo': 'Clima',
+  'el clima': 'Clima',
+  pronostico: 'Clima',
+  meteorologia: 'Clima',
+  'meteorología': 'Clima',
   'ultimas noticias': null,
   'ultimo momento': null,
   destacadas: null,
@@ -276,6 +295,10 @@ export const SECTION_CATEGORY = {
   deporte: 'Deportes',
   cultura: 'Cultura',
   sociedad: 'Sociedad',
+  clima: 'Clima',
+  tiempo: 'Clima',
+  pronostico: 'Clima',
+  meteorologia: 'Clima',
   educacion: 'Educación',
   salud: 'Salud',
   turismo: 'Turismo',
@@ -441,6 +464,18 @@ export const DEFAULT_SOURCES = [
     type: 'auto',
     enrich: 1,
     notes: 'Portal oficial de noticias del Gobierno de la Provincia de Santa Cruz.'
+  },
+  {
+    slug: 'el-patagonico',
+    name: 'El Patagónico',
+    locality: 'Provincia',
+    homepage: 'https://www.elpatagonico.com/',
+    feed_url: 'https://www.elpatagonico.com/rss/SantaCruz.xml',
+    list_url: 'https://www.elpatagonico.com/',
+    article_pattern: '-n\\d+$',
+    type: 'auto',
+    enrich: 1,
+    notes: 'Diario regional con sección exclusiva de Santa Cruz y cobertura patagónica.'
   }
 ];
 

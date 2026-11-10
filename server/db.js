@@ -688,7 +688,7 @@ export function getDayStats(date) {
   return row;
 }
 
-export function getFacets(date) {
+export function getFacets(date = todayLocal()) {
   const categories = db
     .prepare(`SELECT category AS name, COUNT(*) AS count FROM articles WHERE date_local = ? GROUP BY category ORDER BY count DESC, name`)
     .all(date);

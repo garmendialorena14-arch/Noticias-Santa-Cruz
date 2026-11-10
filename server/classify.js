@@ -77,7 +77,8 @@ export function classifyCategory({ title = '', summary = '', sourceCategories = 
     for (const keyword of rule.keywords) {
       const titleMatches = Math.min(countKeyword(titleText, keyword), 3);
       const summaryMatches = Math.min(countKeyword(summaryText, keyword), 2);
-      score += titleMatches * 2.5 + summaryMatches * 0.8;
+      const weight = keyword.includes(' ') ? 1.6 : 1.0;
+      score += (titleMatches * 2.5 + summaryMatches * 0.8) * weight;
     }
     if (score > 0) scores.set(rule.name, (scores.get(rule.name) || 0) + score);
   }
